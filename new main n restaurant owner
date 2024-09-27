@@ -1,0 +1,987 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cstring>
+#include <ctime>
+#include <unistd.h>
+
+using namespace std;
+
+class RestaurantOwner
+{
+private:
+    string restaurantName, username, password;
+
+public:
+public:
+    RestaurantOwner();
+    RestaurantOwner(string rn, string un, string p);
+    void setrestaurantName(string rn);
+    void setusername(string un);
+    void setpassword(string p);
+    void create();
+    string getrestaurantName() const;
+    string getusername() const;
+    string getpassword() const;
+};
+
+class Customer
+{
+private:
+    string customerName;
+    string username;
+    string password;
+
+public:
+    Customer();
+    Customer(string cn, string un, string p, string a);
+    string getcustomerName() const;
+    string getusername() const;
+    string getpassword() const;
+    void setcustomerName(string cn);
+    void setusername(string un);
+    void setpassword(string p);
+    void create();
+};
+
+class Menu
+{
+public:
+    string category;
+    string foodName;
+    double foodPrice;
+    string description;
+    Menu *next;
+    Menu();
+};
+
+class MenuList
+{
+public:
+    Menu *head;
+    MenuList();
+    void insertNode(Menu *);
+    void deleteNode();
+    bool isEmpty();
+    void editNode();
+    void displayList();
+};
+
+class Order // contain all items/variable
+{
+public:
+    string date;
+    Menu cart;
+    Customer cus;
+};
+
+class OrderQueue // Declaration of Queue (insertion etc)
+{
+public:
+    Order *backPtr, frontPtr;
+    void createQueue();
+    void destroyQueue();
+    bool isEmpty();
+    void enQueue();
+    void deQueue();
+    int getFront();
+    int getRear();
+};
+
+void intro();
+void mehOrderAnimation();
+void makimaKitchen();
+
+int main()
+{
+    system("color 0B");
+
+    RestaurantOwner admin;
+    Customer cus[10];
+    Menu dish;
+    Order myOrder;
+    OrderQueue orderQueue;
+    MenuList listMenu;
+
+    intro();
+    mehOrderAnimation();
+    makimaKitchen();
+    system("PAUSE");
+    
+    Menu *ayam = new Menu;
+    ayam->category = "Kategori1";
+    ayam->description = "ayam goreng";
+    ayam->foodName = "AYAM";
+    ayam->foodPrice = 4.5;
+
+    Menu *ikan = new Menu;
+    ikan->category = "Kategori2";
+    ikan->description = "ikan sambal";
+    ikan->foodName = "ikan";
+    ikan->foodPrice = 2345;
+
+    Menu *itik = new Menu;
+    itik->category = "Kategor3";
+    itik->description = "itik sambal";
+    itik->foodName = "itik";
+    itik->foodPrice = 95;
+
+    listMenu.insertNode(ayam);
+    listMenu.insertNode(ikan);
+    listMenu.insertNode(itik);
+    // listMenu.deleteNode();
+    // listMenu.editNode();
+    // listMenu.displayList();
+
+    int customer = 0;
+    Customer cus[2];
+
+    while (customer < 2 && customer >= 0)
+    {
+        cus[customer].create();
+        customer++;
+    }
+
+   	int choice = 0, isCustomerSignedIn = 0, customerlist = 0, successfulLogin = 0, customers = 0;
+	intro();
+	do
+	{
+
+		cout << "+--------------------------------------------+" << endl;
+		cout << "+                    HOLA!                   +" << endl;
+		cout << "+            WELCOME TO " << admin.getrestaurantName();
+		cout << "             +" << endl;
+		cout << "+          (powered by AyuhOrder!!!)         +" << endl;
+		cout << "+               Option, choose               +" << endl;
+		cout << "+--------------------------------------------+" << endl;
+
+		cout << setfill(' ') << setw(20) << left << "1. Restaurant owner" << endl;
+		cout << setfill(' ') << setw(20) << left << "2. Customer" << endl;
+		cout << setfill(' ') << setw(20) << left << "3. Exit" << endl;
+
+		cin >> choice;
+		int choiceadmin = 1, choicecustomer = 1, choicecustomer1 = 1;
+		switch (choice)
+		{
+		case 1: // Restaurant Owner
+		{
+		L1:
+			system("cls");
+			string owner_name, owner_pass;
+			cout << "+--------------------------------------------+" << endl;
+			cout << "+----- Please Insert Username & Password ----+" << endl;
+			cout << "+--------------------------------------------+" << endl;
+			cout << "Username: ";
+			cin >> owner_name;
+			cout << "Password: ";
+			cin >> owner_pass;
+			while (choiceadmin)
+			{
+
+				int choice_admin = 1;
+				if (owner_name == admin.getusername() && owner_pass == admin.getpassword())
+				{
+					system("cls");
+					cout << "+----------------------------------------------+" << endl;
+					cout << "+------- HI, WELCOME TO YOUR RESTAURANT -------+" << endl;
+					cout << "+----------------------------------------------+" << endl;
+					cout << "+------ Please CHOOSE what you want to do -----+" << endl;
+					cout << "+----------------------------------------------+" << endl;
+					cout << setfill(' ') << setw(20) << left << "\n1. Edit Menu" << endl;
+					cout << setfill(' ') << setw(20) << left << "2. View Account Details" << endl;
+					cout << setfill(' ') << setw(20) << left << "0. Logout and Exit" << endl;
+					cin >> choice_admin;
+
+					switch (choice_admin)
+					{
+					case 1://EDIT MENU
+					{
+						 int edit;
+						 system("cls");
+						 cout << "+----------------------------------------------+" << endl;
+						 cout << "+------------------ EDIT MENU------------------+" << endl;
+						 cout << "+----------------------------------------------+" << endl;
+						 cout << "+------ Please CHOOSE what you want to edit ---+" << endl;
+						 cout << "+----------------------------------------------+" << endl;
+						 cout << setfill(' ') << setw(20) << left << "\n1. add new menu" << endl;
+						 cout << setfill(' ') << setw(20) << left << "2. delete menu" << endl;
+						 cout << setfill(' ') << setw(20) << left << "3. edit menu" << endl;
+						 cout << setfill(' ') << setw(20) << left << "4. view menu list" << endl;					
+						 switch (edit)
+						 {
+						 	case 1:
+								system("cls");
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+------------------ ADD MENU ------------------+" << endl;
+								cout << "+----------------------------------------------+" << endl;							
+					     		//listMenu.insertNode()
+								//kene tambah lagi bende kat insert node ala2 mcm edit node;
+								break;
+
+						 	case 2:
+								system("cls");
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+----------------- DELETE MENU ----------------+" << endl;
+								cout << "+----------------------------------------------+" << endl;									
+					     		listMenu.deleteNode();
+								break;							
+
+						 	case 3:
+								system("cls");
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+------------------ EDIT MENU -----------------+" << endl;
+								cout << "+----------------------------------------------+" << endl;		
+					     		listMenu.editNode();
+								break;	
+
+						 	case 4:
+ 					     		listMenu.displayList();
+								break;
+
+						 	default:
+								break;
+						 }
+						
+						system("cls");
+						break;
+					}
+
+					case 2://VIEW ACCOUNT DETAILS
+					{
+						system("cls");
+						int view_choice, view_list = 1;
+						while (view_list)
+						{
+							cout << "+----------------------------------------------+" << endl;
+							cout << "+--------------- ACCOUNT DETAILS---------------+" << endl;
+							cout << "+----------------------------------------------+" << endl;
+							cout << setfill(' ') << setw(20) << left << "\n1. Edit Account Details" << endl;
+							cout << setfill(' ') << setw(20) << left << "0. Exit" << endl;
+							cin >> view_choice;
+
+							switch (view_choice)
+							{
+							case 1://EDIT ACCOUNT
+							{
+								system("cls");
+								system("cls");
+								int choicechange1;
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+---------- EDIT MY ACCOUNT DETAILS -----------+" << endl;
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+---- CHOOSE THE OPTION YOU WANT TO EDIT ------+" << endl;
+								cout << "+----------------------------------------------+" << endl;
+								cout << setfill(' ') << setw(20) << left << "\n1. Change my name" << endl;
+								cout << setfill(' ') << setw(20) << left << "2. Change my username" << endl;
+								cout << setfill(' ') << setw(20) << left << "3. Change my password" << endl;
+								cout << setfill(' ') << setw(20) << left << "4. Logout and exit" << endl;
+								cin >> choicechange1;
+								switch (choicechange1)
+								{
+
+								 case 1://change name
+								 {
+									string newOwnername;
+									cout << "My Restaurant name: " << admin.getrestaurantName() << endl;
+									cout << "Type your new name: ";
+									getline(cin, newOwnername);
+									while (newOwnername == admin.getrestaurantName())
+									{
+										cout << "Cannot enter the same name! Try Again" << endl;
+										cout << "Type your new name: ";
+										getline(cin, newOwnername);
+									}
+									admin.setrestaurantName(newOwnername);
+									break;
+								 }
+
+								 case 2://change username
+								 {
+									string newownerusername;
+									cout << "My username: " << admin.getusername() << endl;
+									cout << "Type your new username: ";
+									getline(cin, newownerusername);
+									while (newownerusername == admin.getusername())
+									{
+
+										cout << "Cannot enter the same username! Try Again" << endl;
+										cout << "Type your new username: ";
+										getline(cin, newownerusername);
+									}
+									admin.setusername(newownerusername);
+									break;
+								 }
+
+								 case 3://change password
+								 {
+									string newownerpassword;
+									cout << "My Password: " << admin.getpassword() << endl;
+									cout << "Type your new password: ";
+									getline(cin, newownerpassword);
+									while (newownerpassword == admin.getpassword())
+									{
+
+										cout << "Cannot enter the same password! Try Again" << endl;
+										cout << "Type your new password: ";
+										getline(cin, newownerpassword);
+									}
+									admin.setpassword(newownerpassword);
+									break;
+								 }
+
+								 default:
+									break;
+								}
+
+								system("PAUSE");
+								system("cls");
+								break;
+							}
+
+							case 0://EXIT
+								view_list = 0;
+								break;
+
+							default:
+								system("cls");
+								cout << "Please, enter a legitimate number" << endl;
+								break;
+							}
+						}
+
+						break;
+					}
+					case 0://EXIT
+						choiceadmin = 0;
+						break;
+
+					default:
+						cout << "Please, enter a legitimate number" << endl;
+						system("pause");
+						break;
+					}
+				}
+				else
+				{
+					system("cls");
+					cout << "+----------------------------------------------+" << endl;
+					cout << "+---------------- WARNING!!! ------------------+" << endl;
+					cout << "+----------------------------------------------+" << endl;
+					cout << "+------ WRONG USERNAME & PASSWORD INSERT ------+" << endl;
+					cout << "+----------------------------------------------+" << endl;
+					cout << setfill(' ') << setw(20) << left << "\n1. Re-enter Username & Password" << endl;
+					cout << setfill(' ') << setw(20) << left << "0. Exit" << endl;
+					int adminacc;
+					cin >> adminacc;
+					switch (adminacc)
+					{
+					case 1:
+						goto L1;
+						break;
+
+					case 0:
+						choiceadmin = 0;
+						break;
+
+					default:
+						cout << "Please enter a legitimate number" << endl;
+						cout << "Press any key to re-enter Username & Password" << endl;
+						system("PAUSE");
+						goto L1;
+						break;
+					}
+				}
+			}
+			break;
+		}
+
+        case 2://customer
+        {
+            int choicecustomer, customerIndex;
+            do
+            {
+            	cin.ignore();
+				system("cls");
+				cout << "+----------------------------------------------+" << endl;
+				cout << "+------- HI, WELCOME TO OUR RESTAURANT --------+" << endl;
+				cout << "+----------------------------------------------+" << endl;
+				cout << "+------- Please SIGN UP if you are new --------+" << endl;
+				cout << "+----------------------------------------------+" << endl;
+				cout << "+--- SIGN IN if you already have an account ---+" << endl;
+				cout << "+----------------------------------------------+" << endl;
+				cout << setfill(' ') << setw(20) << left << "\n1. Sign up a new account" << endl;
+				cout << setfill(' ') << setw(20) << left << "2. Sign in" << endl;
+				cout << setfill(' ') << setw(20) << left << "3. Exit" << endl;
+				cin >> choicecustomer;
+				string tempCart = "", tempDate = "";
+				double tempPrice = 0;
+
+                switch (choicecustomer)
+                {
+
+                case 1://sign up new account
+				cout << "+----------------------------------------------+" << endl;
+				cout << "+------------- SIGN UP NEW ACCOUNT ------------+" << endl;
+				cout << "+----------------------------------------------+" << endl;
+				cus[customers].create();
+				customers++;
+				cout << "Thank you, registration successful.\nPress enter to proceed and sign in with your brand new account" << endl;                
+                break;
+                
+                case 2://sign in
+					if (successfulLogin == 0)
+					{
+						string cusUsername, cusPassword;
+						system("cls");
+						cout << "+----------------------------------------------+" << endl;
+						cout << "+   You can proceed logging in your account    +" << endl;
+						cout << "+----------------------------------------------+" << endl;
+						cin.ignore();
+						cout << "\nPlease enter your username: ";
+						getline(cin, cusUsername);
+						cout << "\nPlease enter your password: ";
+						getline(cin, cusPassword);
+
+						for (int i = 0; i < 10; i++)
+						{
+							if ((cusUsername == cus[i].getusername()) && cusPassword == cus[i].getpassword() && cusUsername != "" && cusPassword != "")
+							{
+								successfulLogin = 1;
+								customerIndex = i;
+							}
+						}
+						if (successfulLogin == 0)
+							cout << "\nWrong Username or Password, press enter to go back" << endl;
+					}
+                    if (successfulLogin == 1)
+                    {
+                        system("cls");
+                        do
+                        {
+        			        cout << "\n+----------------------------------------------+" << endl;
+							cout << "+------------------ WELCOME -------------------+" << endl;
+							cout << "+------------ Choose any option :D ------------+" << endl;
+							cout << "+----------------------------------------------+" << endl;
+			                cout << setfill(' ') << setw(20) << left << "\n1. View menu" << endl;
+                        	cout << setfill(' ') << setw(20) << left << "2. Order food" << endl;
+                        	cout << setfill(' ') << setw(20) << left << "3. View cart" << endl;
+                        	cout << setfill(' ') << setw(20) << left << "4. View account details" << endl;
+                        	cout << setfill(' ') << setw(20) << left << "5. Logout and exit" << endl;
+							cin >> choicecustomer1;  
+
+                            switch (choicecustomer1)
+                            {
+                             case 1:// view menu
+								system("cls");
+								listMenu.displayList();
+								system("PAUSE");
+								break;
+
+                             case 2:// order food
+								tempPrice = 0;
+								tempCart = "";
+								int dishAmount;
+								system("cls");
+								//using queue orderqueue ngan order
+								cout << "Thank you for your order. You can proceed to your cart for purchase purposes" << endl;
+								system("PAUSE");
+                                break;                                
+
+                             case 3://cart
+                                if (tempPrice != 0)
+                                {
+									Order finalOrder(tempDate, tempCart, cus[customerIndex].getcustomerName()); // composition
+									orderPtr = &finalOrder;
+									int paymentIndex;
+
+									system("cls");
+									orderPtr->update();
+									cout << endl;
+									cout << "+--------------------------------------------+" << endl;
+									cout << "+                   Your Cart                +" << endl;
+									cout << "+--------------------------------------------+" << endl;
+									cout << orderPtr->getcart() << endl;
+									cout << "\nTotal Price : RM" << tempPrice << endl;
+									//ada kaitan ngan order queue
+									//smbung bahagian payment 
+                                }
+                                
+                                break; 
+
+                             case 4://account details
+								system("cls");
+								int choicechange;
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+---------- EDIT MY ACCOUNT DETAILS -----------+" << endl;
+								cout << "+----------------------------------------------+" << endl;
+								cout << "+---- CHOOSE THE OPTION YOU WANT TO EDIT ------+" << endl;
+								cout << "+----------------------------------------------+" << endl;
+								cout << setfill(' ') << setw(20) << left << "\n1. Change my name" << endl;
+								cout << setfill(' ') << setw(20) << left << "2. Change my username" << endl;
+								cout << setfill(' ') << setw(20) << left << "3. Change my password" << endl;
+								cin >> choicechange;
+								switch (choicechange)
+								{
+
+								 case 1://change name
+								 {
+									string newcusname;
+									cout << "My name: " << cus[customerIndex].getcustomerName() << endl;
+									cout << "Type your new name: ";
+									getline(cin, newcusname);
+									while (newcusname == cus[customerIndex].getcustomerName())
+									{
+										cout << "Cannot enter the same name! Try Again" << endl;
+										cout << "Type your new name: ";
+										getline(cin, newcusname);
+									}
+									cus[customerIndex].setcustomerName(newcusname);
+									break;
+								 }
+
+								 case 2://change username
+								 {
+									string newcususername;
+									cout << "My username: " << cus[customerIndex].getusername() << endl;
+									cout << "Type your new username: ";
+									getline(cin, newcususername);
+									while (newcususername == cus[customerIndex].getusername())
+									{
+
+										cout << "Cannot enter the same username! Try Again" << endl;
+										cout << "Type your new username: ";
+										getline(cin, newcususername);
+									}
+									cus[customerIndex].setusername(newcususername);
+									break;
+								 }
+
+								 case 3://change password
+								 {
+									string newcuspassword;
+									cout << "My Password: " << cus[customerIndex].getpassword() << endl;
+									cout << "Type your new password: ";
+									getline(cin, newcuspassword);
+									while (newcuspassword == cus[customerIndex].getpassword())
+									{
+
+										cout << "Cannot enter the same password! Try Again" << endl;
+										cout << "Type your new password: ";
+										getline(cin, newcuspassword);
+									}
+									cus[customerIndex].setpassword(newcuspassword);
+									break;
+								 }
+
+								 default:
+									break;
+								}
+                                break; 
+
+                             case 5://exit
+                                successfulLogin = 0;
+                                break;
+
+                             default:
+                                break;
+                            }                 
+                        } while (choicecustomer != 5);
+                        
+                    }
+                    
+
+                default:
+                    break;
+                }
+            } while (choicecustomer != 3);
+            break;
+        }
+
+	 case 3://EXIT
+		system("cls");
+			system("cls");
+			cout << "+--------------------------------------------+" << endl;
+			cout << "+                    MERCI                   +" << endl;
+			cout << "+                 SEE U AGAIN                +" << endl;
+			cout << "+--------------------------------------------+" << endl;
+			system("PAUSE");
+			break;
+
+		default:
+			cout << "Please enter a legitimate number \n"
+				 << endl;
+			system("PAUSE");
+			break;
+		}
+
+		system("cls");		
+		system("PAUSE");
+
+	}while(choice != 3);
+
+	return 0;
+}
+
+
+
+RestaurantOwner::RestaurantOwner()
+{
+    restaurantName = "Makima's Kitchen";
+    username = "admin00";    // admin username
+    password = "dsaproject"; // admin password
+};
+
+RestaurantOwner::RestaurantOwner(string rn, string un, string p)
+{
+    restaurantName = rn;
+    username = un;
+    password = p;
+};
+
+void RestaurantOwner::setrestaurantName(string rn)
+{
+    restaurantName = rn;
+};
+
+void RestaurantOwner::setusername(string un)
+{
+    username = un;
+};
+
+void RestaurantOwner::setpassword(string p)
+{
+    password = p;
+};
+
+void RestaurantOwner::create()
+{
+  		cin.ignore();
+		cout << "+------------------------------------+" << endl;
+		cout << "+  Create Restaurant Owner's Account +" << endl;
+		cout << "+------------------------------------+" << endl;
+		cout << setfill(' ') << setw(20) << left << "Enter restaurant name : ";
+		getline(cin, restaurantName);
+		cout << setfill(' ') << setw(20) << left << "Enter your username : ";
+		getline(cin, username);
+		cout << setfill(' ') << setw(20) << left << "Enter your password : ";
+		getline(cin, password);
+};
+
+string RestaurantOwner::getrestaurantName() const
+{
+    return restaurantName;
+};
+
+string RestaurantOwner::getusername() const
+{
+    return username;
+};
+
+string RestaurantOwner::getpassword() const
+{
+    return password;
+};
+
+Customer::Customer()
+{
+    customerName = "";
+    username = "";
+    password = "";
+};
+
+Customer::Customer(string cn, string un, string p, string a)
+{
+    customerName = cn;
+    username = un;
+    password = p;
+};
+
+string Customer::getcustomerName() const
+{
+    return customerName;
+};
+
+string Customer::getusername() const
+{
+    return username;
+};
+
+string Customer::getpassword() const
+{
+    return password;
+};
+
+void Customer::setcustomerName(string cn)
+{
+    customerName = cn;
+};
+
+void Customer::setusername(string un)
+{
+    username = un;
+};
+
+void Customer::setpassword(string p)
+{
+    password = p;
+};
+
+void Customer::create()
+{
+    system("cls");
+
+    // cin.ignore();
+    cout << "+------------------------------------+" << endl;
+    cout << "+     Create  Customer's Account     +" << endl;
+    cout << "+------------------------------------+" << endl;
+    cout << endl;
+    cout << setw(20) << left << "Enter your name [eg: Luqman] : ";
+    getline(cin, customerName);
+    cout << setw(20) << left << "Enter your username : ";
+    getline(cin, username);
+    cout << setw(20) << left << "Enter your password : ";
+    getline(cin, password);
+};
+
+Menu::Menu()
+{
+    category = "";
+    foodName = "";
+    foodPrice = 0;
+    description = "";
+    next = NULL;
+};
+
+MenuList::MenuList()
+{
+    head = NULL;
+};
+
+void MenuList::insertNode(Menu *node)
+{
+    if (head == NULL)
+    {
+        head = node;
+    }
+    else
+    {
+        Menu *tempNode = head;
+        while (tempNode->next)
+        {
+            tempNode = tempNode->next;
+        }
+        tempNode->next = node;
+    }
+};
+
+void MenuList::deleteNode()
+{
+    int position = 0;
+    int sizeOfList = 0;
+
+    displayList();
+    cout << "Enter the node number you wish to delete => ";
+    cin >> position;
+
+    Menu *tempNode = head;
+
+    while (tempNode)
+    {
+        sizeOfList++;
+        tempNode = tempNode->next;
+    }
+    delete tempNode;
+
+    if (sizeOfList == 0)
+    {
+        cout << "EMPTY LIST, CANT DELETE ANYTHING BEGOK";
+    }
+    else if (position > sizeOfList)
+    {
+        cout << "NODE DOESNT EXIST";
+    }
+    else
+    {
+        if (position == 0)
+        {
+            cout << "POSITION 0 DOES NOT EXIST BRUH" << endl;
+            return;
+        }
+        else if (position == 1)
+        {
+            head = head->next;
+            delete tempNode;
+            return;
+        }
+        else
+        {
+            Menu *previousNode;
+            Menu *nextNode = head;
+            while (position-- > 1)
+            {
+                previousNode = nextNode;
+                nextNode = nextNode->next;
+            }
+            previousNode->next = nextNode->next;
+            delete nextNode;
+        }
+    }
+};
+
+bool MenuList::isEmpty()
+{
+    if (head == NULL)
+        return 1;
+    else
+        return 0;
+};
+
+void MenuList::editNode()
+{
+    int position = 0;
+    int sizeOfList = 0;
+
+    displayList();
+    cout << "Enter the node number you wish to edit its content => ";
+    cin >> position;
+    cin.ignore();
+    Menu *tempNode = head;
+
+    while (tempNode)
+    {
+        sizeOfList++;
+        tempNode = tempNode->next;
+    }
+    delete tempNode;
+
+    if (sizeOfList == 0)
+    {
+        cout << "EMPTY LIST, CANT EDIT ANYTHING BRUH";
+    }
+    else if (position > sizeOfList)
+    {
+        cout << "NODE DOESNT EXIST";
+    }
+    else
+    {
+        if (position == 0)
+        {
+            cout << "POSITION 0 DOES NOT EXIST BRUH" << endl;
+            return;
+        }
+
+        string tempCat, tempName, tempDesc;
+        double tempPrice;
+
+        cout << "ENTER NEW MENU =>" << endl;
+        cout << "CATEGORY - ";
+        getline(cin, tempCat);
+        cout << "NAME - ";
+        getline(cin, tempName);
+        cout << "DESCRIPTION - ";
+        getline(cin, tempDesc);
+        cout << "Price - ";
+        cin >> tempPrice;
+
+        if (position == 1)
+        {
+            head->category = tempCat;
+            head->foodName = tempName;
+            head->foodPrice = tempPrice;
+            head->description = tempDesc;
+            return;
+        }
+        else if (position > 1)
+        {
+            tempNode = head;
+            while (position-- > 1)
+            {
+                tempNode = tempNode->next;
+            }
+
+            tempNode->category = tempCat;
+            tempNode->foodName = tempName;
+            tempNode->foodPrice = tempPrice;
+            tempNode->description = tempDesc;
+        }
+
+        else
+        {
+            cout << "HOW ARE YOU EVEN HERE?";
+        }
+    }
+};
+
+void MenuList::displayList()
+{
+    Menu *currNode = head;
+    cout << "MAKIMA'S KITCHEN MENU LIST" << endl;
+
+    int number = 1;
+    do
+    {
+        cout << number << ". ";
+        cout << currNode->category << " ";
+        cout << currNode->foodName << " ";
+        cout << currNode->description << " ";
+        cout << currNode->foodPrice << endl;
+        currNode = currNode->next;
+        number++;
+    } while (currNode);
+    cout << endl;
+    cout << endl;
+};
+
+void mehOrderAnimation()
+{
+    cout << endl;
+    cout << "   /$$      /$$ /$$$$$$$$ /$$   /$$        /$$$$$$  /$$$$$$$  /$$$$$$$  /$$$$$$$$ /$$$$$$$        /$$" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$$    /$$$| $$_____/| $$  | $$       /$$__  $$| $$__  $$| $$__  $$| $$_____/| $$__  $$      | $$" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$$$  /$$$$| $$      | $$  | $$      | $$  \\ $$| $$  \\ $$| $$  \\ $$| $$      | $$  \\ $$      | $$" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$ $$/$$ $$| $$$$$   | $$$$$$$$      | $$  | $$| $$$$$$$/| $$  | $$| $$$$$   | $$$$$$$/      | $$" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$  $$$| $$| $$__/   | $$__  $$      | $$  | $$| $$__  $$| $$  | $$| $$__/   | $$__  $$      |__/" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$\\  $ | $$| $$      | $$  | $$      | $$  | $$| $$  \\ $$| $$  | $$| $$      | $$  \\ $$" << endl
+         << flush;
+    sleep(1);
+    cout << "  | $$ \\/  | $$| $$$$$$$$| $$  | $$      |  $$$$$$/| $$  | $$| $$$$$$$/| $$$$$$$$| $$  | $$       /$$" << endl
+         << flush;
+    sleep(1);
+    cout << "  |__/     |__/|________/|__/  |__/       \\______/ |__/  |__/|_______/ |________/|__/  |__/      |__/" << endl
+         << flush;
+    cin.get();
+    system("CLS");
+};
+
+void makimaKitchen()
+{
+    cout << endl;
+    cout << " ___  ___  ___   _   __ _____ ___  ___  ___   _  _____   _   __ _____  _____  _____  _   _  _____  _   _ " << endl;
+    cout << " |  \\/  | / _ \\ | | / /|_   _||  \\/  | / _ \\ ( )/  ___| | | / /|_   _||_   _|/  __ \\| | | ||  ___|| \\ | |" << endl;
+    cout << " | .  . |/ /_\\ \\| |/ /   | |  | .  . |/ /_\\ \\|/ \\ `--.  | |/ /   | |    | |  | /  \\/| |_| || |__  |  \\| |" << endl;
+    cout << " | |\\/| ||  _  ||    \\   | |  | |\\/| ||  _  |    `--. \\ |    \\   | |    | |  | |    |  _  ||  __| | . ` |" << endl;
+    cout << " | |  | || | | || |\\  \\ _| |_ | |  | || | | |   /\\__/ / | |\\  \\ _| |_   | |  | \\__/\\| | | || |___ | |\\  |" << endl;
+    cout << " \\_|  |_/\\_| |_/\\_| \\_/ \\___/ \\_|  |_/\\_| |_/   \\____/  \\_| \\_/ \\___/   \\_/   \\____/\\_| |_/\\____/ \\_| \\_/" << endl;
+    cout << endl;
+}
+
+void intro()
+{
+    cout << "+----------------------------------------------+" << endl;
+    cout << "+--------------------GROUP 4 ------------------+" << endl;
+    cout << "\n";
+	cout << "Group member : MUHAMMAD TAUFIQ BIN JURIMI" << endl;
+	cout << "             : LUQMAN HAKIM BIN MD SAID" << endl;
+	cout << "             : NURFAZLIN BINTI MAT TAMIDI" << endl;
+	cout << "\n";
+    cout << "+----------------------------------------------+" << endl;
+}
